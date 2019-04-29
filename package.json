@@ -1,0 +1,17 @@
+{
+  "name": "drag-and-drop-image",
+  "version": "1.0.0",
+  "description": "Merge two images with simple drag and drop system.",
+  "main": "index.js",
+  "repository": "git@github.com:samuellevy/drag-and-drop-image.git",
+  "author": "Samuel Levy",
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^4.0.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.5",
+    "gulp-clean": "^0.4.0",
+    "gulp-sass": "^4.0.2"
+  }
+}
