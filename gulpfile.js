@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
 var clean = require('gulp-clean');
+var del = require('del');
 
 var src = './app/';
 var target = './webroot/';
@@ -20,7 +21,6 @@ gulp.task('sass', function(){
 
 gulp.task('scripts', function(){
     return gulp.src(src + 'js/*')
-    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(target + 'js/'))
     .pipe(browserSync.reload({ // Reloading with Browser Sync
         stream: true
@@ -35,13 +35,19 @@ gulp.task('images', function(){
     }));
 });
 
-gulp.task('pages', function() {
+gulp.task('pages', function(){
     return gulp.src(src + '*.html')
     .pipe(gulp.dest(target))
     .pipe(browserSync.reload({ // Reloading with Browser Sync
         stream: true
     }));
 });
+
+gulp.task('clean', function(cb){
+    // return del.sync([target+'/**/*', '!'+target+'/images', '!'+target+'/images/**/*', '!'+target+'index.php']);
+    return del([target+'**/*'], cb);
+});
+  
 
 gulp.task('watch', function(){
     browserSync.init({
@@ -55,7 +61,7 @@ gulp.task('watch', function(){
 });
 
 //compile and watch
-gulp.task('dev', gulp.series(gulp.parallel('sass', 'scripts', 'images', 'pages'), 'watch'), function(){
+gulp.task('dev', gulp.series(gulp.parallel('clean', 'sass', 'scripts', 'images', 'pages'), 'watch'), function(){
     
 });
 
