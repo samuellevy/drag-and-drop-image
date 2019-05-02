@@ -11,3 +11,5 @@ composer.lock
 
 #distribution
 /webroot
+
+app/.DS_Store
