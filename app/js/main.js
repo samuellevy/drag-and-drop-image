@@ -1,49 +1,50 @@
+// enable drag
+var draggable = false;
+
+// movement
 var movement = true;
-var mouse_x_crop_default = 0;
-var mouse_y_crop_default = 0;
 var mouseX = 0;
 var mouseY = 0;
+var restMouseX = 0;
+var restMouseY = 0;
 var image = document.getElementById('drag-1');
 
-function move(e){
+function startDrag(e){
+    draggable = true;
+    restMouseX = e.clientX;
+    restMouseY = e.clientY;
+    image_left = image.offsetLeft;
+    image_top = image.offsetTop;
+    console.log(e.clientX);
+}
+
+function endDrag(e){
+    draggable = false;
+    console.log('can`t drag');
+}
+
+
+function dragging(e){
+    e.preventDefault();
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    if(movement){
+    if(draggable){
+        deltaX = mouseX - restMouseX;
+        deltaY = mouseY - restMouseY;
         image_width = image.offsetWidth;
         image_height = image.offsetHeight;
-        image.style["left"] = mouseX - (image_width) + "px";
-        image.style["top"] = mouseY - (image_height) + "px";
-        console.log(image_width);
-    } else {
-        crop_x = mouse_x_crop_default - mouseX;
-        cropped_x = (image_width - crop_x);
-        image.style["width"] = cropped_x + 'px';
         
-        crop_y = mouse_y_crop_default - mouseY;
-        cropped_y = (image_height - crop_y);
-        image.style["height"] = cropped_y + 'px';
-        console.log(image_height + " - " + crop_y);
+        image.style["left"] = (image_left + deltaX) + 'px';
+        image.style["top"] = (image_top + deltaY) + 'px';
+
+        console.log(mouseX + ' - ' + image_left);
+    } else {
+
     }
-    
 }
 
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Shift") {
-        event.preventDefault();
-        movement = false;
-        mouse_x_crop_default = mouseX;
-        mouse_y_crop_default = mouseY;
-        image.classList.add('dashed');
-    }
-});
 
-document.addEventListener("keyup", function(event) {
-    if (event.key === "Shift") {
-        event.preventDefault();
-        movement = true;
-        image.classList.remove('dashed');
-    }
-});
-
-document.addEventListener('mousemove', move);
+document.addEventListener('mousedown', startDrag);
+document.addEventListener('mouseup', endDrag);
+document.addEventListener('mousemove', dragging);
