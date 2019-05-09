@@ -98,8 +98,8 @@ var dragControl = {
         
         // dragControl.img.src = '../images/photo.png';
         
-        var image = new Image();
-        // var image = document.getElementById("myImage");
+        // var image = new Image();
+        var image = document.getElementById("myImage");
         image.src = dragControl.canvas_a.toDataURL("image/png");
         image.onload = function(){
             ctx_b.drawImage(image, 0, 0);
